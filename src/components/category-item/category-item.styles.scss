@@ -1,5 +1,6 @@
 .category-container {
   // background-color: green;
+  aspect-ratio: 1/1;
   min-width: 30%;
   height: 24rem;
   flex: 1 1 auto;
@@ -37,8 +38,10 @@
     transition: transform 4s cubic-bezier(0.12, 0.72, 0.2, 0.87);
   }
   &__info {
-    height: 9rem;
-    padding: 0 2.5rem;
+    aspect-ratio: 1/1;
+    width: 12rem;
+    height: 12rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,7 +52,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotate(0);
+
     // font-size: 2rem;
     // background-color: blue;
     h2 {

@@ -1,36 +1,24 @@
 // import logo from "./logo.svg";
 import "./App.styles.scss";
+import { Routes, Route, Outlet } from "react-router-dom";
+import Home from "./routes/home/home.component.jsx";
+import Navigation from "./routes/navigation/navigation.component";
+import SignIn from "./routes/sign-in/sign-in.component.jsx";
 
-import Categories from "./components/categories/categories.component";
+function Shop() {
+  return <h1>I AM THE SHOP PAGE</h1>;
+}
+
 function App() {
-  const categories = [
-    {
-      id: 1,
-      title: "HATS",
-      imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
-    },
-    {
-      id: 2,
-      title: "JACKETS",
-      imageUrl: "https://i.ibb.co/px2tCc3/jackets.png",
-    },
-    {
-      id: 3,
-      title: "SNEAKERS",
-      imageUrl: "https://i.ibb.co/0jqHpnp/sneakers.png",
-    },
-    {
-      id: 4,
-      title: "WOMEN",
-      imageUrl: "https://i.ibb.co/GCCdy8t/womens.png",
-    },
-    {
-      id: 5,
-      title: "MEN",
-      imageUrl: "https://i.ibb.co/R70vBrQ/men.png",
-    },
-  ];
-  return <Categories categories={categories} />;
+  return (
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />}></Route>
+        <Route path="shop" element={<Shop />}></Route>
+        <Route path="sign-in" element={<SignIn />}></Route>
+      </Route>
+    </Routes>
+  );
 }
 
 export default App;
