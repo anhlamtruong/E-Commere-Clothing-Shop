@@ -34,6 +34,9 @@ export const signInWithGogglePopup = () =>
   signInWithPopup(auth, provider_google);
 export const signInWithFacebookPopup = () =>
   signInWithPopup(auth, provider_facebook);
+//Redirect to google signup
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, provider_google);
 
 //** STORING USER DATA INTO FIRESTORE **//
 export const db = getFirestore();
