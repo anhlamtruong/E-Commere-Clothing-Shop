@@ -19,7 +19,6 @@ function SignIn() {
       if (res) {
         const userDocRef = await createUserDocumentFromAuth(res.user);
       }
-      console.log(res);
     },
     []
   );
