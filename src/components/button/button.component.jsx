@@ -9,7 +9,7 @@ invert button
 google sign in
 */
 const BUTTON_TYPE_CLASSES = {
-  goolge: "google-sign-in",
+  google: "google-sign-in",
   inverted: "inverted",
 };
 

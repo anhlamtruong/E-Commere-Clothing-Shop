@@ -14,7 +14,7 @@ const defaultFormFields = {
   confirmPassword: "",
 };
 
-function SignUpFrom() {
+function SignUpForm() {
   //*setState
   const [formFields, setFromFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
@@ -60,7 +60,7 @@ function SignUpFrom() {
 
   return (
     <div className="sign-up">
-      <h2>Don't have an account ?</h2>
+      <h1>Don't have an account ?</h1>
       <span>Sign up with your email and password</span>
       <form onSubmit={logUserWithEmail}>
         <FormInput
@@ -100,4 +100,4 @@ function SignUpFrom() {
     </div>
   );
 }
-export default SignUpFrom;
+export default SignUpForm;

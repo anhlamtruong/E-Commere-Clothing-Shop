@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -39,12 +40,23 @@ export const signInWithFacebookPopup = () =>
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, provider_google);
 
-//*function LOGIN WITH EMAIL AND PASSWORD **//
+//*function SIGNUP WITH EMAIL AND PASSWORD **//
 //*function STORING USER DATA INTO FIRESTORE **//
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   try {
     if (!email || !password) return;
     return createUserWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    throw err;
+  }
+};
+
+//*function SIGN IN WITH EMAIL AND PASSWORD **//
+//*function STORING USER DATA INTO FIRESTORE **//
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  try {
+    if (!email || !password) return;
+    return signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     throw err;
   }
