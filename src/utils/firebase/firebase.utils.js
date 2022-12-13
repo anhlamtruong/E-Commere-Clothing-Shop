@@ -7,6 +7,8 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -61,6 +63,19 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     throw err;
   }
 };
+
+//*function SIGN OUT USER**//
+export const signOutUser = async () => await signOut(auth);
+
+//function Observer Listener will run a callback function whenever auth got changed
+//param  (auth singleton, callback function will run whenever auth change)
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
+/*
+next: callback
+error: errorCallback
+complete: completeCallBack
+*/
 
 //*function STORING USER DATA INTO FIRESTORE **//
 export const db = getFirestore();

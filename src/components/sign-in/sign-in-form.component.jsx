@@ -13,6 +13,8 @@ import {
 import FormInput from "../form-input/form-input.component.jsx";
 import Button from "../button/button.component.jsx";
 
+// import { UserContext } from "../../contexts/user.context";
+
 import "./sign-in-form.styles.scss";
 //! default  Form Fields
 const defaultFormFields = {
@@ -25,6 +27,9 @@ function SignInForm() {
   const [formFields, setFromFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
+  //*initailize the user context with an empty object using UserContext from React
+  // const { setCurrentUser } = useContext(UserContext);
+
   //*function reset the form after filling
   const restFromFields = () => {
     setFromFields(defaultFormFields);
@@ -35,8 +40,12 @@ function SignInForm() {
     event.preventDefault();
     try {
       //*See that if it's already authenticated
-      const res = await signInAuthUserWithEmailAndPassword(email, password);
-      console.log(res);
+      const { user } = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      // setCurrentUser(user);
+
       //*create the user document
 
       restFromFields();
@@ -88,7 +97,8 @@ function SignInForm() {
   const logGoogleUser = async () => {
     try {
       const { user } = await signInWithGogglePopup();
-      await createUserDocumentFromAuth(user);
+      // setCurrentUser(user);
+      // await createUserDocumentFromAuth(user);
     } catch (err) {
       console.error(err);
     }
