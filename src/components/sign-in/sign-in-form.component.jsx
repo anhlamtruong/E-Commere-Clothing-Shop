@@ -4,8 +4,6 @@ import { ReactComponent as GOOGLE } from "../../assets/google-icon.svg";
 import {
   auth,
   signInWithGogglePopup,
-  signInWithFacebookPopup,
-  signInWithGoogleRedirect,
   signInAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils.js";
@@ -40,10 +38,7 @@ function SignInForm() {
     event.preventDefault();
     try {
       //*See that if it's already authenticated
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
       // setCurrentUser(user);
 
       //*create the user document
@@ -96,7 +91,7 @@ function SignInForm() {
   //*function Google Popup Login
   const logGoogleUser = async () => {
     try {
-      const { user } = await signInWithGogglePopup();
+      await signInWithGogglePopup();
       // setCurrentUser(user);
       // await createUserDocumentFromAuth(user);
     } catch (err) {
@@ -104,13 +99,13 @@ function SignInForm() {
     }
   };
   //*function Facebook PopUp
-  const logFacebookUser = async () => {
-    try {
-      await signInWithFacebookPopup();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const logFacebookUser = async () => {
+  //   try {
+  //     await signInWithFacebookPopup();
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
     <div className="sign-in">

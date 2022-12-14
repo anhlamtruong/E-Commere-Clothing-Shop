@@ -3,6 +3,7 @@ import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
 } from "../utils/firebase/firebase.utils.js";
+
 //* Seeing this as user value you want to access, not function
 export const UserContext = createContext({
   currentUser: null,
