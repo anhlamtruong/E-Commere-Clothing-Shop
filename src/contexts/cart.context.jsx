@@ -1,5 +1,30 @@
 import { createContext, useState, useEffect } from "react";
 
+const removeCartItem = (items, productRemove) => {
+  //*find if cart items contains productsa to remove
+  const existingCartItem = items.find(
+    (cartItem) => cartItem.id === productRemove.id
+  );
+  //* Checking the quantity to make sure to delete the item
+  //* when the quantity is 1
+  const checkQuantity = items.find(
+    (cartItem) => cartItem.id === productRemove.id && cartItem.quantity > 1
+  );
+  if (existingCartItem) {
+    if (checkQuantity) {
+      return items.map((cartItem) =>
+        cartItem.id === productRemove.id
+          ? { ...cartItem, quantity: cartItem.quantity - 1 }
+          : cartItem
+      );
+    } else {
+      return items.filter((cartItem) => cartItem.id !== productRemove.id);
+    }
+  }
+  //*when not found and item too remove
+  return;
+};
+
 const addCartItem = (items, productAdd) => {
   //*find if cart items contains productsa to add
   const existingCartItem = items.find(
@@ -60,11 +85,15 @@ export const DropdownProvider = ({ children }) => {
   const addItemToCart = (product) => {
     setCartItems(addCartItem(cartItems, product));
   };
+  const removeItemToCart = (product) => {
+    setCartItems(removeCartItem(cartItems, product));
+  };
 
   const value = {
     isCartOpen,
     setIsCartOpen,
     addItemToCart,
+    removeItemToCart,
     cartItems,
     cartCount,
   };
