@@ -1,24 +1,28 @@
 import { createContext, useState, useEffect } from "react";
 
 const removeCartItem = (items, productRemove) => {
+  return items.filter((cartItem) => cartItem.id !== productRemove.id);
+};
+
+const reduceCartItem = (items, productReduce) => {
   //*find if cart items contains productsa to remove
   const existingCartItem = items.find(
-    (cartItem) => cartItem.id === productRemove.id
+    (cartItem) => cartItem.id === productReduce.id
   );
   //* Checking the quantity to make sure to delete the item
   //* when the quantity is 1
   const checkQuantity = items.find(
-    (cartItem) => cartItem.id === productRemove.id && cartItem.quantity > 1
+    (cartItem) => cartItem.id === productReduce.id && cartItem.quantity > 1
   );
   if (existingCartItem) {
     if (checkQuantity) {
       return items.map((cartItem) =>
-        cartItem.id === productRemove.id
+        cartItem.id === productReduce.id
           ? { ...cartItem, quantity: cartItem.quantity - 1 }
           : cartItem
       );
     } else {
-      return items.filter((cartItem) => cartItem.id !== productRemove.id);
+      return items.filter((cartItem) => cartItem.id !== productReduce.id);
     }
   }
   //*when not found and item too remove
@@ -54,6 +58,7 @@ export const DropdownContext = createContext({
   cartItems: [],
   addItemToCart: () => {},
   cartCount: 0,
+  totalPrice: 0,
 });
 /*
 product{
@@ -72,6 +77,16 @@ export const DropdownProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  //*A useEffect for dynamicially calculate the total price whenever cartItems change
+  useEffect(() => {
+    const newTotalPrice = cartItems.reduce(
+      (total, cartItem) => total + cartItem.quantity * cartItem.price,
+      0
+    );
+    setTotalPrice(newTotalPrice);
+  }, [cartItems]);
 
   useEffect(() => {
     const newCartCount = cartItems.reduce(
@@ -85,7 +100,12 @@ export const DropdownProvider = ({ children }) => {
   const addItemToCart = (product) => {
     setCartItems(addCartItem(cartItems, product));
   };
-  const removeItemToCart = (product) => {
+  //function reduce Item to the cartItem array
+  const reduceItemFromCart = (product) => {
+    setCartItems(reduceCartItem(cartItems, product));
+  };
+  //function remove Item to the cartItem array
+  const removeItemFromCart = (product) => {
     setCartItems(removeCartItem(cartItems, product));
   };
 
@@ -93,9 +113,11 @@ export const DropdownProvider = ({ children }) => {
     isCartOpen,
     setIsCartOpen,
     addItemToCart,
-    removeItemToCart,
+    removeItemFromCart,
+    reduceItemFromCart,
     cartItems,
     cartCount,
+    totalPrice,
   };
 
   return (
