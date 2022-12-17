@@ -1,6 +1,6 @@
 // import logo from "./logo.svg";
 import { Outlet } from "react-router-dom";
-import Categories from "../../components/categories/categories.component";
+import Categories from "../../components/directory/directory.component";
 function Home() {
   const categories = [
     {

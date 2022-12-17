@@ -10,7 +10,17 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 //! Your web app's Firebase configuration
 const firebaseConfig = {
@@ -77,8 +87,70 @@ error: errorCallback
 complete: completeCallBack
 */
 
-//*function STORING USER DATA INTO FIRESTORE **//
 export const db = getFirestore();
+
+//function to add collection and documents data onto firebase
+//param (the string of collection, the document objects)
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  try {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+
+    objectsToAdd.forEach((object) => {
+      const docRef = doc(collectionRef, object.title.toLowerCase());
+      batch.set(docRef, object);
+    });
+
+    await batch.commit();
+    console.log("done");
+  } catch (err) {
+    console.err(err);
+  }
+};
+
+//function that will get Categories and Documents
+export const getCategoriesAndDocuments = async () => {
+  try {
+    const collectionRef = collection(db, "categories");
+    const q = query(collectionRef);
+    //fetch documents snapshot that we want
+    const querySnapShot = await getDocs(q);
+    //Loop over the snapshot.docs by using reduce method to create
+    //A structure below
+    const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
+      const { title, items } = docSnapshot.data();
+      acc[title.toLowerCase()] = items;
+      return acc;
+    }, {});
+
+    return categoryMap;
+  } catch (err) {
+    console.error(err);
+  }
+};
+/*
+{
+  hats:{
+    title:'Hats' ,
+    items:[
+      {},
+      {},
+    ] 
+  },
+  sneakers:{
+    title:'Sneakers' ,
+    items:[
+      {},
+      {},
+    ] 
+  }
+}
+*/
+
+//*function STORING USER DATA INTO FIRESTORE **//
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}

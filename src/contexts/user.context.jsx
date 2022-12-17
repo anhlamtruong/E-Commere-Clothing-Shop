@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
   //*We want to mount this function 1 times only, to run the onAuthStateChangedListener once
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
-      console.log(user);
+      // console.log(user);
       if (user) {
         //* We don't know if the user is a new user or is already in db
         createUserDocumentFromAuth(user);

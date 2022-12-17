@@ -1,4 +1,4 @@
-.category-container {
+.directory-container {
   // background-color: green;
   aspect-ratio: 1/1;
   min-width: 30%;
@@ -13,10 +13,10 @@
   &:hover {
     cursor: pointer;
 
-    & .category-container__image {
+    & .directory-container__image {
       transform: scale(1.2);
     }
-    & .category-container__info {
+    & .directory-container__info {
       opacity: 0.9;
     }
   }
