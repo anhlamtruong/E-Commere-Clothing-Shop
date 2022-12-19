@@ -1,19 +1,17 @@
-import "./form-input.styles.scss";
+import { Form, FormInputLabel, Input } from "./form-input.styles.jsx";
 
 function FormInput({ label, ...otherProps }) {
   //! If label exist, return label
   //* In className, we can use a ${} to make advanve SCSS
   return (
-    <div className="form">
-      <input className="form__input" {...otherProps} />
+    <Form>
+      <Input {...otherProps} />
       {label && (
-        <label
-          className={`form__label ${otherProps.value.length ? "shrink" : ""}`}
-        >
+        <FormInputLabel shrink={otherProps.value.length}>
           {label}
-        </label>
+        </FormInputLabel>
       )}
-    </div>
+    </Form>
   );
 }
 export default FormInput;

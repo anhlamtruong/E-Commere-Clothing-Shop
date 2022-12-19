@@ -10,7 +10,12 @@ import { DropdownContext } from "../../contexts/cart.context";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils.js";
 
-import "./navigation.styles.scss";
+import {
+  NavigationContainer,
+  NavLinks,
+  NavLink,
+  LogoContainer,
+} from "./navigation.styles.jsx";
 
 function Navigation() {
   //important : always use the use Context hook to rerender base on the currenUser who is logging in
@@ -24,31 +29,27 @@ function Navigation() {
 
   return (
     <Fragment>
-      <div className="nav">
-        <Link className="nav__logo" to="/">
+      <NavigationContainer>
+        <LogoContainer to="/">
           <CrwnLogo className="logo" />
-        </Link>
-        <div className="nav__links-container">
-          <Link className="nav__link" to="/shop">
-            SHOP
-          </Link>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink to="/shop">SHOP</NavLink>
           <CartIcon />
           {isCartOpen && <CartDropdown />}
           {
             //* If there is a currentUser from the userContext
             //* render SIGN OUT lINK, else render SIGN-IN LINK
             currentUser ? (
-              <span className="nav__link" onClick={signOutUser}>
+              <NavLink as="span" onClick={signOutUser}>
                 SIGN OUT
-              </span>
+              </NavLink>
             ) : (
-              <Link className="nav__link" to="/auth">
-                SIGN-IN
-              </Link>
+              <NavLink to="/auth">SIGN-IN</NavLink>
             )
           }
-        </div>
-      </div>
+        </NavLinks>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   );

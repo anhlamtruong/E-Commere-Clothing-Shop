@@ -9,7 +9,7 @@ import {
 } from "../../utils/firebase/firebase.utils.js";
 
 import FormInput from "../form-input/form-input.component.jsx";
-import Button from "../button/button.component.jsx";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component.jsx";
 
 // import { UserContext } from "../../contexts/user.context";
 
@@ -130,7 +130,11 @@ function SignInForm() {
         />
         <div className="btn-con">
           <Button type="submit">Sign in</Button>
-          <Button type="button" buttonType="google" onClick={logGoogleUser}>
+          <Button
+            type="button"
+            buttonType={BUTTON_TYPE_CLASSES.google}
+            onClick={logGoogleUser}
+          >
             <GOOGLE className="google-logo" />
           </Button>
         </div>
