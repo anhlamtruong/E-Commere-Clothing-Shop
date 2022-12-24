@@ -1,20 +1,53 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
-} from "../utils/firebase/firebase.utils.js";
-
+} from "../utils/firebase.utils.js";
+import { createAction } from "../utils/reducer/reducer.utils.js";
 //* Seeing this as user value you want to access, not function
 export const UserContext = createContext({
   currentUser: null,
   setCurrentUser: () => null,
 });
 
+export const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: "SET_CURRENT_USER",
+};
+
+//function using reducer hooks
+//param state, dispatched
+const userReducer = (state, action) => {
+  // console.log("dispatch");
+  // console.log(action);
+  const { type, payload } = action;
+  switch (type) {
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: payload,
+      };
+    default:
+      throw new Error(`Unhandled type ${type} in userReducer`);
+  }
+};
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 //*function The provider is a function return UserContext,
 //*function wrap around the other components to provide access to UserContext
 export const UserProvider = ({ children }) => {
   //*use a hooks to keep track on the currentuser
-  const [currentUser, setCurrentUser] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
+
+  //*use Reduction Methods
+  //*initial state of user usingReducer
+  const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
+  // console.log(currentUser);
+  const setCurrentUser = (user) => {
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
+  };
+
   const value = { currentUser, setCurrentUser };
 
   // signOutUser();
@@ -36,3 +69,11 @@ export const UserProvider = ({ children }) => {
   //*inside of the the UserContext
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
+
+/*
+    const userReducer=(state, action)=> {
+      return {
+        currentUser: 
+      }
+    }
+*/

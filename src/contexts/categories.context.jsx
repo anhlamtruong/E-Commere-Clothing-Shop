@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
-import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
+import { getCategoriesAndDocuments } from "../utils/firebase.utils.js";
 
 // import SHOP_DATA from "../shop-data.js";
 //* Seeing this as products value you want to access, not function

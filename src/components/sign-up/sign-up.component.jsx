@@ -3,7 +3,7 @@ import FormInput from "../form-input/form-input.component";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
+} from "../../utils/firebase.utils";
 
 // import { UserContext } from "../../contexts/user.context";
 

@@ -6,7 +6,7 @@ import {
   signInWithGogglePopup,
   signInAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils.js";
+} from "../../utils/firebase.utils.js";
 
 import FormInput from "../form-input/form-input.component.jsx";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component.jsx";
