@@ -1,11 +1,14 @@
 import { Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
+
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.coponent";
 
-import { UserContext } from "../../contexts/user.context";
+// import { UserContext } from "../../contexts/user.context";
 import { DropdownContext } from "../../contexts/cart.context";
 
 import { signOutUser } from "../../utils/firebase.utils.js";
@@ -19,7 +22,8 @@ import {
 
 function Navigation() {
   //important : always use the use Context hook to rerender base on the currenUser who is logging in
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
+  const currentUser = useSelector(selectCurrentUser);
   const { isCartOpen } = useContext(DropdownContext);
   //function : that handler the sign out asynchronously
   // const signOutHandler = async () => {

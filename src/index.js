@@ -5,8 +5,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
-import { UserProvider } from "./contexts/user.context";
-import { CategoriesProvider } from "./contexts/categories.context";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
+// import { UserProvider } from "./contexts/user.context";
+// import { CategoriesProvider } from "./contexts/categories.context";
 import { DropdownProvider } from "./contexts/cart.context";
 import reportWebVitals from "./reportWebVitals";
 
@@ -15,15 +18,17 @@ import "./index.scss";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <UserProvider>
-        <CategoriesProvider>
-          <DropdownProvider>
-            <App />
-          </DropdownProvider>
-        </CategoriesProvider>
-      </UserProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        {/* <UserProvider> */}
+        {/* <CategoriesProvider> */}
+        <DropdownProvider>
+          <App />
+        </DropdownProvider>
+        {/* </CategoriesProvider> */}
+        {/* </UserProvider> */}
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

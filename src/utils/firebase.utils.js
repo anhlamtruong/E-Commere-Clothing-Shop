@@ -120,13 +120,14 @@ export const getCategoriesAndDocuments = async () => {
     const querySnapShot = await getDocs(q);
     //Loop over the snapshot.docs by using reduce method to create
     //A structure below
-    const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
-      const { title, items } = docSnapshot.data();
-      acc[title.toLowerCase()] = items;
-      return acc;
-    }, {});
+    return querySnapShot.docs.map((docSnapshot) => docSnapshot.data());
+    // .reduce((acc, docSnapshot) => {
+    //   const { title, items } = docSnapshot.data();
+    //   acc[title.toLowerCase()] = items;
+    //   return acc;
+    // }, {});
 
-    return categoryMap;
+    // return categoryMap;
   } catch (err) {
     console.error(err);
   }

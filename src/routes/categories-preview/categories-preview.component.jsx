@@ -1,11 +1,15 @@
 // import SHOP_DATA from "../../shop-data.json";
-import { useContext } from "react";
-import { CategoriesContext } from "../../contexts/categories.context";
+// import { useContext } from "react";
+import { useSelector } from "react-redux";
+// import { CategoriesContext } from "../../contexts/categories.context";
+import { selectCategoriesMap } from "../../store/categories/category.selector.js";
+
 // import ProductCard from "../../components/product-card/product-card.component";
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 // import "./categories-preview.styles.scss";
 function Categories() {
-  const { categoriesMap } = useContext(CategoriesContext);
+  const categoriesMap = useSelector(selectCategoriesMap);
+  // const { categoriesMap } = useContext(CategoriesContext);
   return (
     <div className="categories-preview-container">
       {Object.keys(categoriesMap).map((title) => {
