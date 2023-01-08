@@ -10,7 +10,7 @@ import { store } from "./store/store";
 
 // import { UserProvider } from "./contexts/user.context";
 // import { CategoriesProvider } from "./contexts/categories.context";
-import { DropdownProvider } from "./contexts/cart.context";
+// import { DropdownProvider } from "./contexts/cart.context";
 import reportWebVitals from "./reportWebVitals";
 
 import "./index.scss";
@@ -22,9 +22,9 @@ root.render(
       <BrowserRouter>
         {/* <UserProvider> */}
         {/* <CategoriesProvider> */}
-        <DropdownProvider>
-          <App />
-        </DropdownProvider>
+        {/* <DropdownProvider> */}
+        <App />
+        {/* </DropdownProvider> */}
         {/* </CategoriesProvider> */}
         {/* </UserProvider> */}
       </BrowserRouter>
