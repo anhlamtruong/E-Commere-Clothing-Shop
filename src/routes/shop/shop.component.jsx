@@ -5,8 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import Category from "../../routes/category/category.component";
 import CategoriesPreview from "../../routes/categories-preview/categories-preview.component";
 
-import { getCategoriesAndDocuments } from "../../utils/firebase.utils";
-import { setCategories } from "../../store/categories/category.action";
+// import { getCategoriesAndDocuments } from "../../utils/firebase.utils";
+import { fetchCategoriesStart } from "../../store/categories/category.action";
 
 // import SHOP_DATA from "../../shop-data.json";
 // import { Fragment, useContext } from "react";
@@ -18,14 +18,14 @@ import "./shop.styles.scss";
 function Shop() {
   const dispatch = useDispatch();
   useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoriesArray = await getCategoriesAndDocuments();
-      console.log(categoriesArray);
-      // console.log(categoryMap);
-      dispatch(setCategories(categoriesArray));
-    };
+    // const getCategoriesMap = async () => {
+    //   const categoriesArray = await getCategoriesAndDocuments();
+    //   console.log(categoriesArray);
+    // console.log(categoryMap);
+    dispatch(fetchCategoriesStart());
+    // };
 
-    getCategoriesMap();
+    // getCategoriesMap();
   }, []);
 
   return (

@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import FormInput from "../form-input/form-input.component";
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase.utils";
+// import {
+//   createAuthUserWithEmailAndPassword,
+//   createUserDocumentFromAuth,
+// } from "../../utils/firebase.utils";
 
 // import { UserContext } from "../../contexts/user.context";
-
+import { signUpStart } from "../../store/user/user.action";
 import Button from "../button/button.component";
 import "./sign-up.styles.scss";
+
 const defaultFormFields = {
   displayName: "",
   email: "",
@@ -20,7 +22,7 @@ function SignUpForm() {
   //*setState
   const [formFields, setFromFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-
+  const dispatch = useDispatch();
   //*initailize the user context with an empty object
   // const { setCurrentUser } = useContext(UserContext);
 
@@ -39,14 +41,14 @@ function SignUpForm() {
     }
     try {
       //*See that if it's already authenticated
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      // setCurrentUser(user);
-
-      //*create the user document
-      await createUserDocumentFromAuth(user, { displayName });
+      // const { user } = await createAuthUserWithEmailAndPassword(
+      //   email,
+      //   password
+      // );
+      // // setCurrentUser(user);
+      dispatch(signUpStart(email, password, displayName));
+      // //*create the user document
+      // await createUserDocumentFromAuth(user, { displayName });
       restFromFields();
       //*Saying to user that we are success
     } catch (err) {

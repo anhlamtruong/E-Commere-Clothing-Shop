@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { getRedirectResult } from "firebase/auth";
 import { ReactComponent as GOOGLE } from "../../assets/google-icon.svg";
-import {
-  auth,
-  signInWithGogglePopup,
-  signInAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase.utils.js";
 
+// import {
+//   auth,
+//   signInAuthUserWithEmailAndPassword,
+//   createUserDocumentFromAuth,
+// } from "../../utils/firebase.utils.js";
+
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../store/user/user.action";
 import FormInput from "../form-input/form-input.component.jsx";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component.jsx";
 
@@ -24,6 +29,7 @@ function SignInForm() {
   //*setState
   const [formFields, setFromFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const dispatch = useDispatch();
 
   //*initailize the user context with an empty object using UserContext from React
   // const { setCurrentUser } = useContext(UserContext);
@@ -33,14 +39,21 @@ function SignInForm() {
     setFromFields(defaultFormFields);
   };
 
+  //*function Google Popup Login
+  const logGoogleUser = async () => {
+    dispatch(googleSignInStart());
+    // setCurrentUser(user);
+    // await createUserDocumentFromAuth(user);
+  };
+
   //*function log user in firebase db using email and password
   const logUserWithEmail = async (event) => {
     event.preventDefault();
     try {
       //*See that if it's already authenticated
-      await signInAuthUserWithEmailAndPassword(email, password);
+      // await signInAuthUserWithEmailAndPassword(email, password);
       // setCurrentUser(user);
-
+      dispatch(emailSignInStart(email, password));
       //*create the user document
 
       restFromFields();
@@ -78,26 +91,16 @@ function SignInForm() {
   };
 
   //*function Hooks using for redirecting login
-  useEffect(
-    () => async () => {
-      const res = await getRedirectResult(auth);
-      if (res) {
-        await createUserDocumentFromAuth(res.user);
-      }
-    },
-    []
-  );
+  // useEffect(
+  //   () => async () => {
+  //     const res = await getRedirectResult(auth);
+  //     if (res) {
+  //       await createUserDocumentFromAuth(res.user);
+  //     }
+  //   },
+  //   []
+  // );
 
-  //*function Google Popup Login
-  const logGoogleUser = async () => {
-    try {
-      await signInWithGogglePopup();
-      // setCurrentUser(user);
-      // await createUserDocumentFromAuth(user);
-    } catch (err) {
-      console.error(err);
-    }
-  };
   //*function Facebook PopUp
   // const logFacebookUser = async () => {
   //   try {

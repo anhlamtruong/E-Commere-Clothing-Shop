@@ -180,15 +180,28 @@ export const createUserDocumentFromAuth = async (
           ...additionalInformation,
         });
       } catch (err) {
-        console.err("ERROR: CREATING THE USER", err.message);
+        console.error("ERROR: CREATING THE USER", err.message);
         throw err;
       }
     }
     //* If the data exists in the database
     //* return userDocRef
-    return userDocRef;
+    return userSnapshot;
   } catch (err) {
     console.error(err);
     throw err;
   }
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };
