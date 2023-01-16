@@ -7,7 +7,7 @@ import {
   fetchCategoriesFailed,
 } from "./category.action";
 
-import { CATEGORIES_ACTION_TYPES } from "./category.types";
+import { CATEGORIES_ACTION_TYPES } from "./category.types.enum";
 
 //function this will fetch the data asynchronously put using generator function instead of normal dispatch
 export function* fetchCategoriesAsync() {
