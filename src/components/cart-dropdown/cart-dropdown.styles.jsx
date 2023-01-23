@@ -3,7 +3,7 @@ import {
   BaseButton,
   GoogleSignInButton,
   InvertedButton,
-} from "../button/button.styles.jsx";
+} from "../button/button.styles";
 
 const fadein = keyframes`
   0%{opacity: 0;}

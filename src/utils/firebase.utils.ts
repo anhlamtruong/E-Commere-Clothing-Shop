@@ -9,6 +9,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  NextOrObserver,
+  User,
 } from "firebase/auth";
 
 import {
@@ -20,8 +22,9 @@ import {
   writeBatch,
   query,
   getDocs,
+  QueryDocumentSnapshot,
 } from "firebase/firestore";
-
+import { Category } from "../store/categories/category.types";
 //! Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC5bZmaxV1LFwWG3pNpk2bOkL_SjbdZpcQ",
@@ -48,13 +51,17 @@ export const signInWithGogglePopup = () =>
   signInWithPopup(auth, provider_google);
 export const signInWithFacebookPopup = () =>
   signInWithPopup(auth, provider_facebook);
+
 //* Redirect to google signup
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, provider_google);
 
 //*function SIGNUP WITH EMAIL AND PASSWORD **//
 //*function STORING USER DATA INTO FIRESTORE **//
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   try {
     if (!email || !password) return;
     return createUserWithEmailAndPassword(auth, email, password);
@@ -65,7 +72,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 
 //*function SIGN IN WITH EMAIL AND PASSWORD **//
 //*function STORING USER DATA INTO FIRESTORE **//
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   try {
     if (!email || !password) return;
     return signInWithEmailAndPassword(auth, email, password);
@@ -79,8 +89,8 @@ export const signOutUser = async () => await signOut(auth);
 
 //function Observer Listener will run a callback function whenever auth got changed
 //param  (auth singleton, callback function will run whenever auth change)
-export const onAuthStateChangedListener = (callback) =>
-  onAuthStateChanged(auth, callback);
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) =>
+  onAuthStateChanged(auth, callback as NextOrObserver<User>);
 /*
 next: callback
 error: errorCallback
@@ -88,13 +98,16 @@ complete: completeCallBack
 */
 
 export const db = getFirestore();
-
+//* TYPING
+export type ObjectToAdd = {
+  title: string;
+};
 //function to add collection and documents data onto firebase
 //param (the string of collection, the document objects)
-export const addCollectionAndDocuments = async (
-  collectionKey,
-  objectsToAdd
-) => {
+export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
+  collectionKey: string,
+  objectsToAdd: T[]
+): Promise<void> => {
   try {
     const collectionRef = collection(db, collectionKey);
     const batch = writeBatch(db);
@@ -107,12 +120,12 @@ export const addCollectionAndDocuments = async (
     await batch.commit();
     console.log("done");
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 };
 
 //function that will get Categories and Documents
-export const getCategoriesAndDocuments = async () => {
+export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
   try {
     const collectionRef = collection(db, "categories");
     const q = query(collectionRef);
@@ -121,7 +134,9 @@ export const getCategoriesAndDocuments = async () => {
     //Loop over the snapshot.docs by using reduce method to create
     //A structure below
     console.log(querySnapShot);
-    return querySnapShot.docs.map((docSnapshot) => docSnapshot.data());
+    return querySnapShot.docs.map(
+      (docSnapshot) => docSnapshot.data() as Category
+    );
     // .reduce((acc, docSnapshot) => {
     //   const { title, items } = docSnapshot.data();
     //   acc[title.toLowerCase()] = items;
@@ -130,7 +145,7 @@ export const getCategoriesAndDocuments = async () => {
 
     // return categoryMap;
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 };
 /*
@@ -152,11 +167,20 @@ export const getCategoriesAndDocuments = async () => {
 }
 */
 
+export type AdditionalInformation = {
+  displayName?: string;
+};
+export type UserData = {
+  createdAt: Date;
+  displayName: string;
+  email: string;
+};
+
 //*function STORING USER DATA INTO FIRESTORE **//
 export const createUserDocumentFromAuth = async (
-  userAuth,
-  additionalInformation = {}
-) => {
+  userAuth: User,
+  additionalInformation: AdditionalInformation = {}
+): Promise<void | QueryDocumentSnapshot<UserData>> => {
   try {
     if (!userAuth) return;
     //param doc (DATABASE,COLLECTION,UNIQUE IDENTIFIER)
@@ -179,21 +203,21 @@ export const createUserDocumentFromAuth = async (
           createdAt,
           ...additionalInformation,
         });
-      } catch (err) {
-        console.error("ERROR: CREATING THE USER", err.message);
-        throw err;
+      } catch (error) {
+        console.error(`ERROR: CREATING THE USER, ${error}`);
+        throw error;
       }
     }
     //* If the data exists in the database
     //* return userDocRef
-    return userSnapshot;
+    return userSnapshot as QueryDocumentSnapshot<UserData>;
   } catch (err) {
     console.error(err);
     throw err;
   }
 };
 
-export const getCurrentUser = () => {
+export const getCurrentUser = (): Promise<User | null> => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(
       auth,

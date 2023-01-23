@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ErrorInfo, useEffect, useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { getRedirectResult } from "firebase/auth";
 import { ReactComponent as GOOGLE } from "../../assets/google-icon.svg";
@@ -13,8 +13,8 @@ import {
   googleSignInStart,
   emailSignInStart,
 } from "../../store/user/user.action";
-import FormInput from "../form-input/form-input.component.jsx";
-import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component.jsx";
+import FormInput from "../form-input/form-input.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 // import { UserContext } from "../../contexts/user.context";
 
@@ -47,7 +47,7 @@ function SignInForm() {
   };
 
   //*function log user in firebase db using email and password
-  const logUserWithEmail = async (event) => {
+  const logUserWithEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       //*See that if it's already authenticated
@@ -58,21 +58,23 @@ function SignInForm() {
 
       restFromFields();
       //*Saying to user that we are success
-    } catch (err) {
+    } catch (err: unknown) {
       //*Finding the right error for the user
-      switch (err.code) {
-        case "auth/user-not-found":
-          alert("User not found");
-          break;
-        case "auth/invalid-password":
-          alert("Wrong password");
-          break;
-        default:
-          alert(
-            `Something went wrong: Code-${err.code}\nMessage-${err.message}`
-          );
-          console.log(err);
-          restFromFields();
+      if (err instanceof Error) {
+        switch (err.name) {
+          case "auth/user-not-found":
+            alert("User not found");
+            break;
+          case "auth/invalid-password":
+            alert("Wrong password");
+            break;
+          default:
+            alert(
+              `Something went wrong: Code-${err.name}\nMessage-${err.message}`
+            );
+            console.error(err);
+        }
+        restFromFields();
       }
 
       // if (err.code === "auth/user-not-found") {
@@ -85,7 +87,7 @@ function SignInForm() {
   };
 
   //*function Event handler to set the state dynamicailly
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFromFields({ ...formFields, [name]: value });
   };

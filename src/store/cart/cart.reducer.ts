@@ -1,14 +1,14 @@
-import { CART_ACTION_TYPES, CartItem } from "./cart.types";
+import { CartItem } from "./cart.types";
 import { AnyAction } from "@reduxjs/toolkit";
 import { setCartItems, setIsCartOpen } from "./cart.action";
 // import { CART_ACTION_TYPES, CartItem } from "./cart.types";
 export type CartState = {
-  isCartOpen: boolean;
+  readonly isCartOpen: boolean;
   cartItems: CartItem[];
 };
 
 //*Initial state using for the reducer
-export const CART_INTIAL_STATE = {
+export const CART_INTIAL_STATE: CartState = {
   isCartOpen: false,
   cartItems: [],
   // cartCount: 0,

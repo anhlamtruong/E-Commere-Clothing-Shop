@@ -2,16 +2,16 @@ import {
   ShoppingIcon,
   ShoppingIconCount,
   CartIconContainer,
-} from "./cart-icon.styles.jsx";
+} from "./cart-icon.styles";
 // import { useContext } from "react";
 // import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 // import { DropdownContext } from "../../contexts/cart.context";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsCartOpen } from "../../store/cart/cart.action.js";
+import { setIsCartOpen } from "../../store/cart/cart.action";
 import {
   selectCartCount,
   selectIsCartOpen,
-} from "../../store/cart/cart.selector.js";
+} from "../../store/cart/cart.selector";
 
 function CartIcon() {
   // const { isCartOpen, setIsCartOpen, cartCount } = useContext(DropdownContext);

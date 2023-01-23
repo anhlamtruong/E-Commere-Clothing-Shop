@@ -11,8 +11,8 @@ import {
 
 import CartItem from "../cart-item/cart-item.component";
 import Button from "../button/button.component";
-import { selectCartItems } from "../../store/cart/cart.selector.js";
-import { setIsCartOpen } from "../../store/cart/cart.action.js";
+import { selectCartItems } from "../../store/cart/cart.selector";
+import { setIsCartOpen } from "../../store/cart/cart.action";
 function CartDropdown() {
   const dispatch = useDispatch();
   // const { cartItems, setIsCartOpen } = useContext(DropdownContext);

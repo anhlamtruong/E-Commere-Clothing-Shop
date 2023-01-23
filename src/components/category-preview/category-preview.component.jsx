@@ -1,5 +1,4 @@
 import "./category-preview.styles.scss";
-
 import ProductCard from "../product-card/product-card.component";
 import Spinner from "../spinner/spinner.component";
 import { Outlet, Link } from "react-router-dom";

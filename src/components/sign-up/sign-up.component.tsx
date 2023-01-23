@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import FormInput from "../form-input/form-input.component";
 // import {
@@ -32,7 +32,7 @@ function SignUpForm() {
   };
 
   //*function log user in firebase db using email and password
-  const logUserWithEmail = async (event) => {
+  const logUserWithEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     //*Confirm password and email
     if (password !== confirmPassword) {
@@ -51,10 +51,12 @@ function SignUpForm() {
       // await createUserDocumentFromAuth(user, { displayName });
       restFromFields();
       //*Saying to user that we are success
-    } catch (err) {
-      //*If user already email in used
-      if (err.code === "auth/email-already-in-use") {
-        alert("Cannot create user, email already in use");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        //*If user already email in used
+        if (err.name === "auth/email-already-in-use") {
+          alert("Cannot create user, email already in use");
+        }
       } else {
         console.error("USER CREATED ENCOUNTERED AN ERROR: ", err);
         throw err;
@@ -63,7 +65,7 @@ function SignUpForm() {
   };
 
   //*function Event handler to set the state dynamicailly
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFromFields({ ...formFields, [name]: value });
   };
